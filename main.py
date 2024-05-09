@@ -14,3 +14,22 @@ create_tables(engine)
 Session = sessionmaker(bind=engine)
 
 session = Session()
+
+publisher_1 = Publisher(name='Publisher_1')
+publisher_2 = Publisher(name='Publisher_2')
+publisher_3 = Publisher(name='Publisher_3')
+publisher_4 = Publisher(name='Publisher_4')
+
+session.add_all([publisher_1, publisher_2, publisher_3, publisher_4])
+session.commit()
+
+# name_publisher = (input('Введите имя издателя:\n')).capitalize()
+
+
+for c in session.query(Publisher).filter(Publisher.name == name_publisher).all():
+    print(c)
+session.commit()
+
+
+
+session.close()

@@ -10,6 +10,9 @@ class Publisher(Base):
     id = sq.Column(sq.Integer, primary_key=True)
     name = sq.Column(sq.String(length=40), unique=True)
 
+    def __str__(self):
+        return f'{self.id} - {self.name}'
+
 
 class Book(Base):
     __tablename__ = 'book'
@@ -47,3 +50,18 @@ def create_tables(engine):
     Base.metadata.create_all(engine)
 
 
+def search_publisher():
+    name_publisher = input('Введите ID или имя издателя:\n')
+    if name_publisher.isalpha() == True:
+        print('Name')
+        return name_publisher.capitalize()
+    elif name_publisher.isdigit() == True:
+        print('ID')
+        return int(name_publisher)
+    else:
+        print('Не корректный ввод!')
+
+
+# for c in session.query(Publisher).filter(Publisher.name == name_publisher).all():
+#     print(c)
+search_publisher()
