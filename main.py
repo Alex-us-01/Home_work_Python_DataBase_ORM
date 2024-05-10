@@ -1,9 +1,8 @@
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 
-from models import create_tables, Publisher, Book, Shop, Stock, Sale
+from models import create_tables, Publisher, search_publisher
 
-#DSN - data source name
 
 DSN = 'postgresql://postgres:1793@localhost:5432/test'
 
@@ -14,22 +13,23 @@ create_tables(engine)
 Session = sessionmaker(bind=engine)
 
 session = Session()
+count = 1
+list_publishers = []
+for publisher in range(1000):
+    name = Publisher(name='Publisher' + str(count))
+    list_publishers.append(name)
+    count += 1
 
-publisher_1 = Publisher(name='Publisher_1')
-publisher_2 = Publisher(name='Publisher_2')
-publisher_3 = Publisher(name='Publisher_3')
-publisher_4 = Publisher(name='Publisher_4')
+session.add_all(list_publishers)
 
-session.add_all([publisher_1, publisher_2, publisher_3, publisher_4])
 session.commit()
 
-# name_publisher = (input('Введите имя издателя:\n')).capitalize()
 
-
-for c in session.query(Publisher).filter(Publisher.name == name_publisher).all():
+query_list = search_publisher()
+column = query_list[0]
+for c in session.query(Publisher).filter(column == query_list[1]).all():
     print(c)
+
 session.commit()
-
-
 
 session.close()

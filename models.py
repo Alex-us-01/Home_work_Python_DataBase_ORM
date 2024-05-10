@@ -19,7 +19,6 @@ class Book(Base):
     id = sq.Column(sq.Integer, primary_key=True)
     title = sq.Column(sq.String(length=60), nullable=False)
     id_publisher = sq.Column(sq.Integer, sq.ForeignKey('publisher.id'), nullable=False)
-    # id_publisher = relationship(Publisher, backref='homeworks')
 
 
 class Shop(Base):
@@ -52,16 +51,10 @@ def create_tables(engine):
 
 def search_publisher():
     name_publisher = input('Введите ID или имя издателя:\n')
-    if name_publisher.isalpha() == True:
-        print('Name')
-        return name_publisher.capitalize()
-    elif name_publisher.isdigit() == True:
-        print('ID')
-        return int(name_publisher)
+    if name_publisher.isdigit() is True:
+        column = Publisher.id
+        return [column, int(name_publisher)]
     else:
-        print('Не корректный ввод!')
+        column = Publisher.name
+        return [column, name_publisher]
 
-
-# for c in session.query(Publisher).filter(Publisher.name == name_publisher).all():
-#     print(c)
-search_publisher()
